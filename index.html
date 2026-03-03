@@ -652,62 +652,6 @@
 
 <script>
 (function() {
-  var heroSection = document.querySelector('.hero.is-fullheight.video');
-  if (!heroSection) return;
-
-  function getVisibleHeroVideo() {
-    var candidates = heroSection.querySelectorAll('.hero-video video');
-    for (var i = 0; i < candidates.length; i++) {
-      var video = candidates[i];
-      var container = video.closest('.hero-video');
-      if (!container) continue;
-      var style = window.getComputedStyle(container);
-      if (style.display !== 'none' && style.visibility !== 'hidden' && container.offsetWidth > 0 && container.offsetHeight > 0) {
-        return video;
-      }
-    }
-    return null;
-  }
-
-  function ensureHeroAutoplay() {
-    var video = getVisibleHeroVideo();
-    if (!video) return;
-
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
-    video.setAttribute('autoplay', '');
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-
-    if (video.readyState < 2) {
-      video.load();
-    }
-
-    var playPromise = video.play();
-    if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(function() {});
-    }
-  }
-
-  window.addEventListener('load', ensureHeroAutoplay);
-  window.addEventListener('resize', ensureHeroAutoplay);
-  window.addEventListener('orientationchange', ensureHeroAutoplay);
-  document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) ensureHeroAutoplay();
-  });
-
-  var heroVideos = heroSection.querySelectorAll('.hero-video video');
-  heroVideos.forEach(function(video) {
-    video.addEventListener('loadedmetadata', ensureHeroAutoplay);
-    video.addEventListener('canplay', ensureHeroAutoplay);
-  });
-
-  ensureHeroAutoplay();
-})();
-
-(function() {
   const sidebar = document.getElementById('sidebar-nav');
   const heroSection = document.querySelector('.hero.is-fullheight');
   if (!sidebar || !heroSection) return;
@@ -746,6 +690,16 @@
 (function() {
   var heroSection = document.querySelector('.hero.is-fullheight');
   if (!heroSection || !('IntersectionObserver' in window)) return;
+  
+  // Explicitly play hero videos (fixes mobile autoplay issues)
+  var heroVideos = heroSection.querySelectorAll('video');
+  heroVideos.forEach(function(video) {
+    var playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function() {});
+    }
+  });
+
   var allVideos = document.querySelectorAll('video');
   var contentVideos = [];
   allVideos.forEach(function(video) {
