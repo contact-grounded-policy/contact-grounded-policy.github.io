@@ -255,13 +255,14 @@ section:not(.hero) video:hover {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
 }
 
-#team .is-hidden-mobile .publication-authors {
+#team .team-desktop-row {
   justify-content: center !important;
   gap: 24px;
 }
 
-#team .is-hidden-mobile .author-block {
-  margin: 0;
+#team .team-desktop-row .author-block {
+  margin: 0 !important;
+  width: 165px;
 }
 
 @media screen and (max-width: 768px) {
