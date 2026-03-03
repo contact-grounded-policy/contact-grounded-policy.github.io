@@ -126,13 +126,13 @@
 
 <section class="hero is-link is-fullheight video" style="overflow: hidden; position:relative;">
   <div class="hero-video is-hidden-mobile" style="height: 100%; width: 177.77777778vh; min-width: 100%;min-height: 56.25vw;">
-    <video playsinline autoplay muted loop preload="auto">
+    <video playsinline webkit-playsinline autoplay muted loop preload="auto">
       <source src="./static/videos/website_teaser.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-video is-hidden-tablet is-inline-block-mobile"
     style="height: 154.28571428vw; width: 100%; min-width:64.81481481vh;min-height:100%;">
-    <video playsinline autoplay muted loop preload="auto">
+    <video playsinline webkit-playsinline autoplay muted loop preload="auto">
       <source src="./static/videos/website_teaser.mp4" type="video/mp4">
     </video>
   </div>
@@ -651,6 +651,62 @@
 </footer>
 
 <script>
+(function() {
+  var heroSection = document.querySelector('.hero.is-fullheight.video');
+  if (!heroSection) return;
+
+  function getVisibleHeroVideo() {
+    var candidates = heroSection.querySelectorAll('.hero-video video');
+    for (var i = 0; i < candidates.length; i++) {
+      var video = candidates[i];
+      var container = video.closest('.hero-video');
+      if (!container) continue;
+      var style = window.getComputedStyle(container);
+      if (style.display !== 'none' && style.visibility !== 'hidden' && container.offsetWidth > 0 && container.offsetHeight > 0) {
+        return video;
+      }
+    }
+    return null;
+  }
+
+  function ensureHeroAutoplay() {
+    var video = getVisibleHeroVideo();
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    if (video.readyState < 2) {
+      video.load();
+    }
+
+    var playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function() {});
+    }
+  }
+
+  window.addEventListener('load', ensureHeroAutoplay);
+  window.addEventListener('resize', ensureHeroAutoplay);
+  window.addEventListener('orientationchange', ensureHeroAutoplay);
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) ensureHeroAutoplay();
+  });
+
+  var heroVideos = heroSection.querySelectorAll('.hero-video video');
+  heroVideos.forEach(function(video) {
+    video.addEventListener('loadedmetadata', ensureHeroAutoplay);
+    video.addEventListener('canplay', ensureHeroAutoplay);
+  });
+
+  ensureHeroAutoplay();
+})();
+
 (function() {
   const sidebar = document.getElementById('sidebar-nav');
   const heroSection = document.querySelector('.hero.is-fullheight');
