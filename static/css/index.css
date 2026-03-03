@@ -256,11 +256,12 @@ section:not(.hero) video:hover {
 }
 
 #team .is-hidden-mobile .publication-authors {
-  justify-content: space-around !important;
+  justify-content: center !important;
+  gap: 24px;
 }
 
 #team .is-hidden-mobile .author-block {
-  margin: 0 20px;
+  margin: 0;
 }
 
 @media screen and (max-width: 768px) {
