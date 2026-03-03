@@ -255,10 +255,30 @@ section:not(.hero) video:hover {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
 }
 
+#team .is-hidden-mobile .publication-authors {
+  justify-content: space-around !important;
+}
+
+#team .is-hidden-mobile .author-block {
+  margin: 0 20px;
+}
+
+.hero.is-fullheight.video .hero-video-mobile {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .hero.is-fullheight.video {
     position: relative;
     overflow: hidden;
+  }
+
+  .hero.is-fullheight.video .hero-video-desktop {
+    display: none !important;
+  }
+
+  .hero.is-fullheight.video .hero-video-mobile {
+    display: block !important;
   }
 
   .hero.is-fullheight.video .hero-video {
@@ -289,11 +309,25 @@ section:not(.hero) video:hover {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px 8px;
+    max-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
     justify-items: center;
     align-items: start;
   }
 
   #team .team-mobile-authors .author-block {
     margin: 0;
+    width: 100%;
+    max-width: 180px;
+  }
+
+  #team .team-mobile-authors .author-block > span {
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+
+  #team .team-mobile-authors .author-block:last-child {
+    grid-column: 1 / -1;
   }
 }
