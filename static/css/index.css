@@ -263,27 +263,24 @@ section:not(.hero) video:hover {
   margin: 0 20px;
 }
 
-.hero.is-fullheight.video .hero-video-mobile {
-  display: none;
-}
-
 @media screen and (max-width: 768px) {
   .hero.is-fullheight.video {
     position: relative;
     overflow: hidden;
   }
 
-  .hero.is-fullheight.video .hero-video-desktop {
+  .hero.is-fullheight.video > .hero-video.is-hidden-mobile {
     display: none !important;
   }
 
-  .hero.is-fullheight.video .hero-video-mobile {
+  .hero.is-fullheight.video > .hero-video.is-hidden-tablet.is-inline-block-mobile {
     display: block !important;
   }
 
   .hero.is-fullheight.video .hero-video {
     position: absolute;
     inset: 0;
+    z-index: 0;
     width: 100% !important;
     height: 100% !important;
     min-width: 0 !important;
