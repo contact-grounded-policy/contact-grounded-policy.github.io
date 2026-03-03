@@ -254,3 +254,46 @@ section:not(.hero) video:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
 }
+
+@media screen and (max-width: 768px) {
+  .hero.is-fullheight.video {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero.is-fullheight.video .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .hero.is-fullheight.video .hero-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #team .team-affiliations {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #team .team-mobile-authors {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 8px;
+    justify-items: center;
+    align-items: start;
+  }
+
+  #team .team-mobile-authors .author-block {
+    margin: 0;
+  }
+}
